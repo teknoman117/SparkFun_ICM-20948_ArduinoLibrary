@@ -12,7 +12,10 @@ A C++ interface to the ICM-20948
 
 #include "Arduino.h" // Arduino support
 #include "Wire.h"
+
+#ifdef USE_SPI
 #include "SPI.h"
+#endif /* USE_SPI */
 
 #define ICM_20948_ARD_UNUSED_PIN 0xFF
 
@@ -259,6 +262,8 @@ public:
   virtual ICM_20948_Status_e begin(TwoWire &wirePort = Wire, bool ad0val = true, uint8_t ad0pin = ICM_20948_ARD_UNUSED_PIN);
 };
 
+#ifdef USE_SPI
+
 // SPI
 #define ICM_20948_SPI_DEFAULT_FREQ 4000000
 #define ICM_20948_SPI_DEFAULT_ORDER MSBFIRST
@@ -282,5 +287,7 @@ public:
 
   ICM_20948_Status_e begin(uint8_t csPin, SPIClass &spiPort = SPI, uint32_t SPIFreq = ICM_20948_SPI_DEFAULT_FREQ);
 };
+
+#endif /* USE_SPI */
 
 #endif /* _ICM_20948_H_ */

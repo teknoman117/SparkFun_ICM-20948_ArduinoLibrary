@@ -1706,7 +1706,7 @@ ICM_20948_Status_e ICM_20948_I2C::begin(TwoWire &wirePort, bool ad0val, uint8_t 
   // Set pins to default positions
   if (_ad0 != ICM_20948_ARD_UNUSED_PIN)
   {
-    digitalWrite(_ad0, _ad0val);
+    digitalWrite(_ad0, _ad0val ? PinStatus::HIGH : PinStatus::LOW);
   }
 
   // _i2c->begin(); // Moved into user's sketch
@@ -1877,6 +1877,8 @@ ICM_20948_Status_e ICM_20948::magWhoIAm(void)
   return status;
 }
 
+#ifdef SPI_ENABLED
+
 // SPI
 
 // SPISettings ICM_20948_SPI_DEFAULT_SETTINGS(ICM_20948_SPI_DEFAULT_FREQ, ICM_20948_SPI_DEFAULT_ORDER, ICM_20948_SPI_DEFAULT_MODE);
@@ -1944,6 +1946,8 @@ ICM_20948_Status_e ICM_20948_SPI::begin(uint8_t csPin, SPIClass &spiPort, uint32
 
   return status;
 }
+
+#endif /* USE_SPI */
 
 // serif functions for the I2C and SPI classes
 ICM_20948_Status_e ICM_20948_write_I2C(uint8_t reg, uint8_t *data, uint32_t len, void *user)
@@ -2016,6 +2020,8 @@ ICM_20948_Status_e ICM_20948_read_I2C(uint8_t reg, uint8_t *buff, uint32_t len, 
   return ICM_20948_Stat_Ok;
 }
 
+#ifdef SPI_ENABLED
+
 ICM_20948_Status_e ICM_20948_write_SPI(uint8_t reg, uint8_t *data, uint32_t len, void *user)
 {
   if (user == NULL)
@@ -2086,4 +2092,4 @@ ICM_20948_Status_e ICM_20948_read_SPI(uint8_t reg, uint8_t *buff, uint32_t len, 
   return ICM_20948_Stat_Ok;
 }
 
-
+#endif /* SPI_ENABLED */
